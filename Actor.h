@@ -1,4 +1,5 @@
-#include "TypeDefine.hxx"
+#include "TypeDefine.h"
+#include "PointerDefine.h"
 
 
 class Actor

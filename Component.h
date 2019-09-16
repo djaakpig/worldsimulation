@@ -1,52 +1,51 @@
-#pragma once
-#include <memory>
-#include <string>
-#include <unordered_map>
-using namespace std;
+#include "TypeDefine.h"
+#include "PointerDefine.h"
+
 
 class Component
 {
-private:
-	const string _name;
 public:
-	explicit Component(const string& name): _name(name)
+	Component()
 	{
 	}
-	virtual ~Component() = default;
-	const string& GetName() const
-	{
-		return _name;
-	}
-	virtual void Tick(const int64_t delta) = 0;
-};
-using ComponentPtr = shared_ptr<Component>;
 
-class Components final: public Component
+	virtual ~Component()
+	{
+	}
+
+	virtual void Update(const ClockRep delta) = 0;
+};
+
+
+class Components final : public Component
 {
-private:
-	unordered_map<string, ComponentPtr> _components;
 public:
-	using Component::Component;
-	void Add(ComponentPtr& component)
+	ComponentList _components;
+
+public:
+	Components()
 	{
-		_components.emplace(
-			make_pair(component->GetName(), component)
-		);
 	}
-	void Remove(const string& name)
+
+	virtual ~Components()
 	{
-		_components.erase(name);
 	}
-	ComponentPtr Find(const string& name) const
+
+	void Add(const ComponentPtr& component)
 	{
-		const auto iter = _components.find(name);
-		return _components.end() != iter ? iter->second : nullptr;
+		_components.emplace_back(component);
 	}
-	void Tick(const int64_t delta) final
+
+	void Remove(const ComponentPtr& component)
 	{
-		for (const auto& componentPair : _components)
+		_components.remove(component);
+	}
+
+	virtual void Update(const ClockRep delta) override
+	{
+		for(const auto& component : _components)
 		{
-			componentPair.second->Tick(delta);
+			component->Update(delta);
 		}
 	}
 };
