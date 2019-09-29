@@ -1,64 +1,81 @@
 #include <iostream>
 #include <list>
 #include <vector>
-#include "Component.h"
-#include "Object.h"
-#include "Shape.h"
-using namespace std;
+#include "Components/Component.h"
+#include "Actors/PtrDefine.h"
+#include "Core/Shape.h"
 
-using ObjectPtr = shared_ptr<Object>;
 
 class Cell final
 {
 private:
-	list<ObjectPtr> _objects;
+	ActorList _actors;
+
 public:
+	Cell()
+	{
+	}
+
+	~Cell()
+	{
+	}
+
 	bool Create()
 	{
 		return true;
 	}
+
 	void Destroy()
 	{
 	}
 };
+
+
 class Zone final
 {
 private:
 	Point32i _start;
 	Rectangle32i _size;
 	Rectangle32i _numCells;
-	vector<Cell> _cells;
+	std::vector<Cell> _cells;
+
 public:
 	Zone(
-		const Point32i &start,
-		const Rectangle32i &size,
-		const Rectangle32i &numCells) :
+		const Point32i& start,
+		const Rectangle32i& size,
+		const Rectangle32i& numCells) :
 		_start(start), _size(size), _numCells(numCells)
 	{
 	}
-	~Zone() = default;
+
+	~Zone()
+	{
+	}
+
 	bool Create()
 	{
 		_cells.resize(_numCells.GetWidth() * _numCells.GetHeight());
 		return true;
 	}
+
 	void Destroy()
 	{
-		for (auto &cell : _cells)
+		for(auto& cell : _cells)
 		{
 			cell.Destroy();
 		}
 		_cells.clear();
 	}
-	bool Spawn(const ObjectPtr &object)
+
+	bool Spawn(const ActorPtr& actor)
 	{
 		return true;
 	}
 };
 
-ObjectPtr NewCharacter(const string &name);
-ObjectPtr NewMonster(const string &name);
-ObjectPtr NewObstacle(const string &name);
+ActorPtr NewCharacter(const std::string& name);
+ActorPtr NewMonster(const std::string& name);
+ActorPtr NewObstacle(const std::string& name);
 
 int main()
 {
@@ -129,32 +146,20 @@ int main()
 	return 0;
 }
 
-ObjectPtr NewCharacter(const string &name)
+ActorPtr NewCharacter(const std::string& name)
 {
-	const auto components = make_shared<Components>(
-		name + ".components");
-	const auto character = make_shared<Object>(
-		name,
-		components);
+	const auto character = make_shared<Actor>();
 	return character;
 }
 
-ObjectPtr NewMonster(const string &name)
+ActorPtr NewMonster(const std::string& name)
 {
-	const auto components = make_shared<Components>(
-		name + ".components");
-	const auto monster = make_shared<Object>(
-		name,
-		components);
+	const auto monster = make_shared<Actor>();
 	return monster;
 }
 
-ObjectPtr NewObstacle(const string &name)
+ActorPtr NewObstacle(const std::string& name)
 {
-	const auto components = make_shared<Components>(
-		name + ".components");
-	const auto obstacle = make_shared<Object>(
-		name,
-		components);
+	const auto obstacle = make_shared<Actor>();
 	return obstacle;
 }

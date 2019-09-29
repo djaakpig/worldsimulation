@@ -15,12 +15,14 @@ public:
 	{
 	}
 
+	virtual void Update(const ClockRep delta) override
+	{
+	}
+
+	#pragma region Setters
 	void SetRemoteSession(const RemoteSessionComponentPtr session)
 	{
 		_remoteSession = session;
 	}
-
-	virtual void Update(const ClockRep delta) override
-	{
-	}
+	#pragma endregion
 };

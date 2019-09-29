@@ -6,7 +6,7 @@ class Timestamp final
 private:
 	ClockRep _timestamp = 0;
 
-public: 
+public:
 	Timestamp()
 	{
 		MakeNow();
@@ -17,19 +17,23 @@ public:
 	{
 	}
 
+	#pragma region Operators
 	operator ClockRep() const
 	{
 		return _timestamp;
 	}
+	#pragma endregion
+
+	#pragma region Setters
+	void Set(const ClockRep timestamp)
+	{
+		_timestamp = timestamp;
+	}
+	#pragma endregion
 
 	static ClockRep Now()
 	{
 		return Clock::now().time_since_epoch().count();
-	}
-
-	void Set(const Rep timestamp)
-	{
-		_timestamp = timestamp;
 	}
 
 	void MakeNow()
@@ -41,17 +45,12 @@ public:
 
 class RemoteTimestamp final
 {
-public:
-	using Clock = Timestamp::Clock;
-	using Duration = Clock::duration;
-	using Rep = Duration::rep;
-
 private:
-	Rep _remote = 0;
+	ClockRep _remote = 0;
 	Timestamp _local;
-	Rep _error = 0;
-	Rep _sumOfRtts = 0;
-	Rep _countOfRtts = 0;
+	ClockRep _error = 0;
+	ClockRep _sumOfRtts = 0;
+	ClockRep _countOfRtts = 0;
 
 public:
 	RemoteTimestamp() :
@@ -59,7 +58,7 @@ public:
 	{
 	}
 
-	void Start(const Rep remote, const Rep rtt)
+	void Start(const ClockRep remote, const ClockRep rtt)
 	{
 		_remote = remote;
 		_error = rtt;
@@ -69,14 +68,14 @@ public:
 		_local.MakeNow();
 	}
 
-	void Restart(const Rep remote)
+	void Restart(const ClockRep remote)
 	{
 		_remote = remote;
 
 		_local.MakeNow();
 	}
 
-	void AddRtt(const Rep rtt)
+	void AddRtt(const ClockRep rtt)
 	{
 		++_countOfRtts;
 		_sumOfRtts += rtt;
@@ -89,21 +88,21 @@ public:
 		_sumOfRtts = 0;
 	}
 
-	Rep CalcNow() const
+	ClockRep CalcNow() const
 	{
 		const Timestamp localNow;
 		const auto localDiff = localNow - _local;
 		return _remote + localDiff + _error;
 	}
-	
-	Rep CalcElapsed(const Rep remote) const
+
+	ClockRep CalcElapsed(const ClockRep remote) const
 	{
 		const auto remoteNow = CalcNow();
 		const auto remoteDiff = remoteNow - remote;
 		return remoteDiff;
 	}
 
-	Rep CalcFuture(const Rep desired) const
+	ClockRep CalcFuture(const ClockRep desired) const
 	{
 		const auto remoteNow = CalcNow();
 		return remoteNow + desired;

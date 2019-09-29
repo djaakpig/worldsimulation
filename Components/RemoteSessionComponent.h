@@ -1,5 +1,5 @@
 #include "Component.h"
-#include "Timestamp.h"
+#include "Core/Timestamp.h"
 
 
 class RemoteSessionComponent final : public Component
@@ -13,6 +13,10 @@ public:
 	}
 
 	virtual ~RemoteSessionComponent()
+	{
+	}
+
+	virtual void Update(const ClockRep delta) override
 	{
 	}
 
@@ -36,10 +40,6 @@ public:
 	}
 
 	void OnReceived()
-	{
-	}
-
-	virtual void Update(const ClockRep delta) override
 	{
 	}
 };

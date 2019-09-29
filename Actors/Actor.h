@@ -1,5 +1,5 @@
-#include "TypeDefine.h"
-#include "PointerDefine.h"
+#include "Core/TypeDefine.h"
+#include "Components/PtrDefine.h"
 
 
 class Actor
@@ -17,7 +17,16 @@ public:
 	{
 	}
 
-	void Update(const ClockRep delta)
+	virtual bool Create()
+	{
+		return true;
+	}
+
+	virtual void Destroy()
+	{
+	}
+
+	virtual void Update(const ClockRep delta)
 	{
 		_movement->Update(delta);
 	}

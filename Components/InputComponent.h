@@ -1,4 +1,5 @@
 #include "Component.h"
+#include "Timestamp.h"
 #include <queue>
 
 
@@ -36,6 +37,20 @@ public:
 	{
 	}
 
+	virtual void Update(const ClockRep delta) override
+	{
+		Timestamp now;
+		while(!_pendingInputs.empty())
+		{
+			const auto input = _pendingInputs.front();
+			if(!input->CanActive(now))
+			{
+				break;
+			}
+			_pendingInputs.pop();
+		}
+	}
+
 	void PushInput(InputPtr input)
 	{
 		_inputs.push(input);
@@ -50,19 +65,5 @@ public:
 		const auto input = _inputs.front();
 		_inputs.pop();
 		return input;
-	}
-
-	virtual void Update(const ClockRep delta) override
-	{
-		Timestamp now;
-		while(!_pendingInputs.empty())
-		{
-			const auto input = _pendingInputs.front();
-			if(!input->CanActive(now))
-			{
-				break;
-			}
-			_pendingInputs.pop();
-		}
 	}
 };
