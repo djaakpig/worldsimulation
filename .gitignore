@@ -3,3 +3,12 @@
 ################################################################################
 
 /.vs
+/x64/Debug/worldsimulation.log
+/x64/Debug/worldsimulation.ilk
+/x64/Debug/vc141.pdb
+/x64/Debug/vc141.idb
+/x64/Debug/ProxyController.obj
+/x64/Debug/Main.obj
+/worldsimulation.vcxproj.user
+/x64/Debug
+/Debug

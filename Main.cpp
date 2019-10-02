@@ -1,77 +1,8 @@
 #include <iostream>
-#include <list>
-#include <vector>
-#include "Components/Component.h"
 #include "Actors/PtrDefine.h"
-#include "Core/Shape.h"
+#include "World/Zone.h"
+#include "Actors/Actor.h"
 
-
-class Cell final
-{
-private:
-	ActorList _actors;
-
-public:
-	Cell()
-	{
-	}
-
-	~Cell()
-	{
-	}
-
-	bool Create()
-	{
-		return true;
-	}
-
-	void Destroy()
-	{
-	}
-};
-
-
-class Zone final
-{
-private:
-	Point32i _start;
-	Rectangle32i _size;
-	Rectangle32i _numCells;
-	std::vector<Cell> _cells;
-
-public:
-	Zone(
-		const Point32i& start,
-		const Rectangle32i& size,
-		const Rectangle32i& numCells) :
-		_start(start), _size(size), _numCells(numCells)
-	{
-	}
-
-	~Zone()
-	{
-	}
-
-	bool Create()
-	{
-		_cells.resize(_numCells.GetWidth() * _numCells.GetHeight());
-		return true;
-	}
-
-	void Destroy()
-	{
-		for(auto& cell : _cells)
-		{
-			cell.Destroy();
-		}
-		_cells.clear();
-	}
-
-	bool Spawn(const ActorPtr& actor)
-	{
-		return true;
-	}
-};
 
 ActorPtr NewCharacter(const std::string& name);
 ActorPtr NewMonster(const std::string& name);
@@ -127,10 +58,10 @@ int main()
 	}
 	*/
 
-	const auto zone1 = make_shared<Zone>(
-		Point32i{1, 1},
-		Rectangle32i{1000, 1000},
-		Rectangle32i{100, 100});
+	const auto zone1 = std::make_shared<Zone>(
+		Point32i{1, 1, 0},
+		Rectangle32i{1000, 1000, 1000},
+		Rectangle32i{100, 100, 100});
 	const auto chr1 = NewCharacter("chr1");
 	const auto chr2 = NewCharacter("chr2");
 	const auto mon1 = NewMonster("mon1");
@@ -148,18 +79,18 @@ int main()
 
 ActorPtr NewCharacter(const std::string& name)
 {
-	const auto character = make_shared<Actor>();
+	const auto character = std::make_shared<Actor>();
 	return character;
 }
 
 ActorPtr NewMonster(const std::string& name)
 {
-	const auto monster = make_shared<Actor>();
+	const auto monster = std::make_shared<Actor>();
 	return monster;
 }
 
 ActorPtr NewObstacle(const std::string& name)
 {
-	const auto obstacle = make_shared<Actor>();
+	const auto obstacle = std::make_shared<Actor>();
 	return obstacle;
 }

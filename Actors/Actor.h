@@ -1,5 +1,6 @@
 #include "Core/TypeDefine.h"
 #include "Components/PtrDefine.h"
+#include "Components/MovementComponent.h"
 
 
 class Actor

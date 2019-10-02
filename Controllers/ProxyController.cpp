@@ -1,5 +1,5 @@
 #include "ProxyController.h"
-#include "RemoteInputComponent.h"
+#include "Components/RemoteInputComponent.h"
 
 
 ProxyController::ProxyController()

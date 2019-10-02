@@ -1,4 +1,4 @@
-#include "Component.h"
+#include "InputComponent.h"
 
 
 class RemoteInputComponent final : public InputComponent

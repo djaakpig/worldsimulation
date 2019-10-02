@@ -1,3 +1,4 @@
+#pragma once
 #include "Core/TypeDefine.h"
 #include "PtrDefine.h"
 

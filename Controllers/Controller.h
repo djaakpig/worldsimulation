@@ -1,6 +1,8 @@
 #include "Core/TypeDefine.h"
 #include "Components/PtrDefine.h"
 #include "Actors/PtrDefine.h"
+#include "Components/InputComponent.h"
+#include "Actors/Actor.h"
 
 
 class Controller

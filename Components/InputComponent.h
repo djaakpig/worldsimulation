@@ -1,5 +1,6 @@
+#pragma once
 #include "Component.h"
-#include "Timestamp.h"
+#include "Core/Timestamp.h"
 #include <queue>
 
 

@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include "Components/RemoteInputComponent.h"
 
 
 class ServerController : public Controller
